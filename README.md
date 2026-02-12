@@ -1,0 +1,1 @@
+# TradeCoin Wallet: Currency wallet for TradeSim
