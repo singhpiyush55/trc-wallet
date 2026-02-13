@@ -15,15 +15,15 @@ datasource db {
 
 model User {
   id      String  @id @default(uuid())
-  name    String
-  email   String
+  email   String  @unique
+  password String
   createdAt DateTime @default(now())
 }
 
 model Wallet {
   id        String   @id @default(uuid())
   userId    String   @unique
-  balance   Float    @default(0)
+  balance   Float    @default(100000)
   currency  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
