@@ -1,0 +1,1 @@
+// User won't hit this route directly, this is just for internal use by the service layer to log transactions when needed.
