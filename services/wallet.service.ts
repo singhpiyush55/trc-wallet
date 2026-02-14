@@ -86,3 +86,23 @@ export async function debitWalletService(
         throw error;
     }
 }
+
+export async function getWalletTransactionsService(userId: string) {
+    try {
+        // 1. Fetch wallet by userId
+        const wallet = await prisma.wallet.findUnique({
+            where: { userId },
+        });
+        if (!wallet) {
+            throw new Error("Wallet not found");
+        }
+        // 2. Fetch transactions for the wallet
+        const transactions = await prisma.walletTransaction.findMany({
+            where: { walletId: wallet.id },
+            orderBy: { createdAt: "desc" },
+        });
+        return transactions;
+    } catch (error) {
+        throw error;
+    }
+}
