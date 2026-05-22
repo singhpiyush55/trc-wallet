@@ -14,7 +14,8 @@ export async function POST(req: Request){
         const token = await userSignin(email, password);
         (await cookies()).set("token", token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
+            secure: false,
+            // secure: process.env.NODE_ENV === "production",
             path: "/",
         });
         return NextResponse.json({token}, {status: 200});
