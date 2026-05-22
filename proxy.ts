@@ -6,14 +6,14 @@ export function proxy(request: NextRequest) {
   const token = request.cookies.get("token")?.value;
 
   if (!token) {
-    return NextResponse.redirect(new URL("/signin", request.url));
+    return NextResponse.redirect(new URL("/login", request.url));
   }
 
   try {
     jwt.verify(token, process.env.JWT_SECRET!);
     return NextResponse.next();
   } catch (err) {
-    return NextResponse.redirect(new URL("/signin", request.url));
+    return NextResponse.redirect(new URL("/login", request.url));
   }
 }
 

@@ -2,7 +2,7 @@ import prisma from "@/lib/prisma";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-export const createUser = async (email: string, pass: string) => {
+export const createUser = async (name: string, email: string, pass: string) => {
     // 1. Check if user exists
     const existingUser = await prisma.user.findUnique({
       where: { email }
@@ -19,8 +19,10 @@ export const createUser = async (email: string, pass: string) => {
         // 3. Create User
         const user = await prisma.user.create({
             data: {
+            name,
             email,
             password: hashedPassword,
+            key: generateUniqueKey(),
             },
         });
 
@@ -67,4 +69,14 @@ export const userSignin = async (email: string, pass: string) => {
     // 3. Sign a jwt and return it. 
     const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET!);
     return token;
+}
+
+
+function generateUniqueKey() {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let key = '';
+    for (let i = 0; i < 10; i++) {
+        key += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return key;
 }
